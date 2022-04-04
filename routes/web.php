@@ -9,11 +9,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('products', ProductController::class);
+Route::get('products_list',  [ProductController::class, 'index'])->middleware(['auth'])->name('products_list');
+
+Route::resource('/products', ProductController::class)->middleware(['AdminAccess']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+//Jei be administratoriaus bandoma naudotis CRUD, gaunama GIF
+Route::get('/neradmino', function () {
+    return view('neradmino');
+})->middleware(['auth'])->name('neradmino');
 
 Route::resource('/books', BookController::class)->middleware(['auth']);
 
